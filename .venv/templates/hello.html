@@ -8,11 +8,11 @@
 {% block body %}
     <form action="/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="file">
-        {% for column in columns %}
-            <label>
-                <input type="checkbox" name="columns" value="{{ column }}">{{ column }}
-            </label>
-        {% endfor %}
+        <select name="columns" multiple>
+            {% for column in df.columns %}
+            <option value="{{ column }}">{{ column }}</option>
+            {% endfor %}
+        </select>
         <input type="submit" value="Cargar archivo">
     </form>
 {% endblock %}

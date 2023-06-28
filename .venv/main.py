@@ -34,4 +34,4 @@ def upload():
 
         plt.show()
 
-    return render_template("hello.html")
+    return render_template("hello.html", df=df)
