@@ -1,11 +1,15 @@
+import os
 from flask import Flask, render_template, make_response, redirect, request, url_for
 from flask_bootstrap import Bootstrap
 import matplotlib.pyplot as plt
 import pandas as pd
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = '/path/to/the/uploads'                           # Ruta donde almacenaremos los archivos cargados 
 ALLOWED_EXTENSIONS = {'csv'} # Conjunto de extensiones de archivo permitidas
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
@@ -19,14 +23,15 @@ def index():
     response = make_response(redirect('/upload'))
     return response
 
-@app.route("/upload", methods=["POST"])
+@app.route("/upload", methods=["GET","POST"])
 def upload():
-    file = request.files["file"]
-    df = pd.read_csv(file)
-    columns = request.form.getlist("columns")
-    for column in columns:
-        plt.plot(df[column])
+    if request.method == 'POST':
+        file = request.files["file"]
+        df = pd.read_csv(file)
+        columns = request.form.getlist("columns")
+        for column in columns:
+            plt.plot(df[column])
 
-    plt.show()
+        plt.show()
 
-    return render_template("hello.html", columns=columns)
+    return render_template("hello.html")
