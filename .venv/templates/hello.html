@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ super()}}
+    Biendenido
+{% endblock %}
+
+{% block body %}
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        {% for column in columns %}
+            <label>
+                <input type="checkbox" name="columns" value="{{ column }}">{{ column }}
+            </label>
+        {% endfor %}
+        <input type="submit" value="Cargar archivo">
+    </form>
+{% endblock %}
