@@ -1,13 +1,37 @@
 {% extends 'base.html' %}
 
 {% block body %}
+
+    {% block navbar %}
+        {% include 'navbar.html' %}
+    {% endblock %}
+
     <form action="/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="file">
         <select name="columns" multiple>
             {% for column in df.columns %}
-            <option value="{{ column }}">{{ column }}</option>
+                <option value="{{ column }}">{{ column }}</option>
             {% endfor %}
         </select>
+        <legend>Elige un tipo de Grafico:</legend>
+        <label>
+            <input type="radio" name="grafico" value="Scatter">Scatter
+        </label>
+        <label>
+            <input type="radio" name="grafico" value="Lineal" checked>Lineal
+        </label>
+        <label>
+            <input type="radio" name="grafico" value="Barra">Barra
+        </label>
+        <label>
+            <input type="radio" name="grafico" value="Pie">Pie
+        </label>
         <input type="submit" value="Cargar archivo">
-    </form>
+    </form><br>
+
+    <div class="grafics">
+        <img src="{{ url_for('static', filename='images/my_plot.png') }}" style="max-width: 800px" alt="Grafic">
+    </div>
+
 {% endblock %}
+

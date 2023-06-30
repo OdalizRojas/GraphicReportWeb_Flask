@@ -1,15 +1,7 @@
-import os
 from flask import Flask, render_template, make_response, redirect, request, url_for
 from flask_bootstrap import Bootstrap
 import matplotlib.pyplot as plt
 import pandas as pd
-from werkzeug.utils import secure_filename
-
-ALLOWED_EXTENSIONS = {'csv'} # Conjunto de extensiones de archivo permitidas
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
@@ -25,13 +17,34 @@ def index():
 
 @app.route("/upload", methods=["GET","POST"])
 def upload():
-    if request.method == 'POST':
+    df = []
+    if request.method == "POST":
+        graph_type = request.form["grafico"]
+
         file = request.files["file"]
         df = pd.read_csv(file)
         columns = request.form.getlist("columns")
-        for column in columns:
-            plt.plot(df[column])
+        fig = plt.figure()
 
-        plt.show()
+        if graph_type == "Lineal":
+            for column in columns:
+                plt.plot(df[column],color='green', marker='o', linestyle='dashed',linewidth=2, markersize=12)
+                plt.title("Linear Grafic")
+        elif graph_type == "Barra":
+            for column in columns:
+                plt.bar(df[column],10,color='red')
+                plt.title("Bar Grafic")
+        elif graph_type == "Scatter":
+           for column in columns:
+            #plt.scatter(column[0],column[1],vmin=0, vmax=100)
+            plt.scatter(df[column],df[column])
+            plt.title("Scatter Grafic")
+        elif graph_type == "Pie":
+            for column in columns:
+                plt.pie(df[column])
+                plt.title("Pie Grafic")
 
-    return render_template("hello.html", df=df)
+        plt.savefig('static/images/my_plot.png')
+
+    return render_template("hello.html", df=df, upload = True, plot="static/images/my_plot.png")
+

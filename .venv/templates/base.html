@@ -9,11 +9,8 @@
 {% endblock %}
 
 {% block body %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
     {% block navbar %}
         {% include 'navbar.html' %}
     {% endblock %}
-
-    {% block scripts %}
-        {{ super() }}
-    {% endblock%}
 {% endblock %}

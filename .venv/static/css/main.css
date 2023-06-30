@@ -1,0 +1,18 @@
+html {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+img {
+    max-width: 200px;
+    align-content: center;
+}
+
+body {
+    background-color: rgb(240, 241, 242);
+    align-items: center;
+}
+
+.grafics {
+    align-items: center;
+}
+
